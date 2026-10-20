@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main() {
+    int choice;
+
+    printf("1. Half-Duplex\n2. Full-Duplex\n");
+    printf("Enter choice: ");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        printf("A sends data to B\n");
+        printf("B sends data to A\n");
+        printf("One direction at a time\n");
+    } else if (choice == 2) {
+        printf("A and B send data simultaneously\n");
+    } else {
+        printf("Invalid choice\n");
+    }
+
+    return 0;
+}

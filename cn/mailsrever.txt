@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+int main() {
+    int s, c;
+    struct sockaddr_in server;
+    char msg[1000];
+
+    s = socket(AF_INET, SOCK_STREAM, 0);
+
+    server.sin_family = AF_INET;
+    server.sin_port = htons(8080);
+    server.sin_addr.s_addr = INADDR_ANY;
+
+    bind(s, (struct sockaddr *)&server, sizeof(server));
+    listen(s, 1);
+
+    printf("HTTP Mail Server waiting...\n");
+
+    c = accept(s, NULL, NULL);
+    read(c, msg, sizeof(msg) - 1);
+    msg[sizeof(msg) - 1] = '\0';
+
+    printf("Received request:\n%s\n", msg);
+
+    char *response =
+        "HTTP/1.1 200 OK\r\n"
+        "Content-Type: text/plain\r\n"
+        "Connection: close\r\n\r\n"
+        "Message received successfully!";
+
+    write(c, response, strlen(response));
+
+    close(c);
+    close(s);
+    return 0;
+}
+
+How to execute (Linux/Ubuntu)
+1. Save the program as mail.c.
+2. Compile:
+   gcc mail.c -o mail
+3. Run the server:
+   ./mail
+4. Open a second terminal and send an HTTP request:
+   curl -X POST http://localhost:8080 \
+   -H "Content-Type: text/plain" \
+   -d "Hello, this is my message"

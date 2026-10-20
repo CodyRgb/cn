@@ -1,0 +1,16 @@
+#include <stdio.h>
+
+int main() {
+    int i, n;
+
+    printf("Enter number of packets: ");
+    scanf("%d", &n);
+
+    for (i = 1; i <= n; i++) {
+        printf("Sending packet %d\n", i);
+        printf("ACK received for packet %d\n", i);
+    }
+
+    printf("Transmission complete\n");
+    return 0;
+}

@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int main() {
+    int a, b, sum, checksum;
+
+    printf("Enter two 4-bit decimal values: ");
+    scanf("%d%d", &a, &b);
+
+    sum = a + b;
+    sum = (sum & 15) + (sum >> 4);
+    checksum = (~sum) & 15;
+
+    printf("Checksum = %d\n", checksum);
+    return 0;
+}
