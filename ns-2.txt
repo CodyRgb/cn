@@ -1,0 +1,26 @@
+Experiment 5: Installation and verification of NS-2
+These commands are for Ubuntu or a compatible Debian-based Linux system.
+Step 1: Update packages
+sudo apt update
+
+
+Step 2: Install NS-2 and NAM
+sudo apt install ns2 nam
+
+
+Step 3: Verify NS-2 installation
+ns
+
+
+If installed successfully, the NS-2 Tcl prompt should appear:
+%
+
+
+Type exit to leave the prompt.
+Step 4: Check the version
+ns -version
+
+
+If your installed version does not support that option, use ns to check that the interpreter starts successfully.
+Step 5: Verify NAM
+nam

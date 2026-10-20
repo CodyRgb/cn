@@ -1,0 +1,53 @@
+# Update package lists
+sudo apt update
+
+# Install Wireshark
+sudo apt install wireshark
+
+# Check Wireshark version
+wireshark --version
+
+# Display network interfaces
+ip addr
+
+# List packet capture interfaces
+tshark -D
+
+# Open Wireshark
+wireshark
+
+# Generate network traffic
+ping -c 4 google.com
+
+# Display IP packets
+ip
+
+# Display TCP packets
+tcp
+
+# Display UDP packets
+udp
+
+# Display DNS packets
+dns
+
+# Display ICMP packets
+icmp
+
+# Display HTTP packets
+http
+
+# Filter packets by source IP
+ip.src == 192.168.1.10
+
+# Filter packets by destination IP
+ip.dst == 8.8.8.8
+
+# Capture packets for 10 seconds and save them
+sudo tshark -i any -a duration:10 -w capture.pcapng
+
+# Read captured packets
+tshark -r capture.pcapng
+
+# Display source IP, destination IP, and protocol
+tshark -r capture.pcapng -T fields -e ip.src -e ip.dst -e _ws.col.Protocol
