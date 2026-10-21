@@ -1,17 +1,62 @@
+1. Server (server.c)
 #include <stdio.h>
+#include <unistd.h>
+#include <arpa/inet.h>
 
 int main() {
-    int n, i;
+    int s, c, n;
+    char b[100];
+    struct sockaddr_in a = {0};
 
-    printf("Enter number of frames: ");
-    scanf("%d", &n);
+    s = socket(AF_INET, SOCK_STREAM, 0);
+    a.sin_family = AF_INET;
+    a.sin_port = htons(8081);
+    a.sin_addr.s_addr = INADDR_ANY;
 
-    for (i = 1; i <= n; i++) {
-        printf("Sending frame %d\n", i);
-        printf("Waiting for ACK...\n");
-        printf("ACK received for frame %d\n", i);
+    bind(s, (struct sockaddr*)&a, sizeof(a));
+    listen(s, 1);
+    printf("Server waiting...\n");
+
+    c = accept(s, NULL, NULL);
+
+    while ((n = read(c, b, sizeof(b))) > 0) {
+        b[n] = '\0';
+        printf("Received frame: %s\n", b);
+        write(c, "ACK", 3);
     }
 
-    printf("All frames sent successfully\n");
+    close(c);
+    close(s);
     return 0;
 }
+
+
+2. Client (client.c)
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <arpa/inet.h>
+
+int main() {
+    int s, i;
+    char b[100] = {0};
+    struct sockaddr_in a = {0};
+
+    s = socket(AF_INET, SOCK_STREAM, 0);
+    a.sin_family = AF_INET;
+    a.sin_port = htons(8081);
+    inet_pton(AF_INET, "127.0.0.1", &a.sin_addr);
+
+    connect(s, (struct sockaddr*)&a, sizeof(a));
+
+    for (i = 1; i <= 5; i++) {
+        sprintf(b, "Frame %d", i);
+        write(s, b, strlen(b));
+        read(s, b, sizeof(b));
+        printf("Received: %s\n", b);
+    }
+
+    close(s);
+    return 0;
+}
+
