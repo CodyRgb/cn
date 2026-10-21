@@ -60,3 +60,14 @@ int main() {
     return 0;
 }
 
+How to run these programs in Ubuntu
+For each experiment:
+1. Save the server and client code in separate files.
+2. Compile both:
+   gcc server.c -o server
+   gcc client.c -o client
+3. Open Terminal 1 and run:
+   ./server
+4. Open Terminal 2 and run:
+   ./client
+
